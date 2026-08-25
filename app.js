@@ -23,8 +23,8 @@ function updateThemeToggleButtons() {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   document.querySelectorAll('[data-theme-toggle]').forEach(btn => {
     btn.innerHTML = isDark
-      ? '<i data-lucide="sun" class="theme-icon"></i> Light'
-      : '<i data-lucide="moon" class="theme-icon"></i> Dark';
+      ? '<i data-lucide="sun" class="theme-icon"></i> <span class="btn-label">Light</span>'
+      : '<i data-lucide="moon" class="theme-icon"></i> <span class="btn-label">Dark</span>';
   });
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
@@ -33,7 +33,7 @@ function themeToggleHTML() {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
   const label = isDark ? 'Light' : 'Dark';
   const icon = isDark ? 'sun' : 'moon';
-  return `<button type="button" class="btn btn-theme" data-theme-toggle onclick="toggleTheme()"><i data-lucide="${icon}"></i> ${label}</button>`;
+  return `<button type="button" class="btn btn-theme" data-theme-toggle onclick="toggleTheme()"><i data-lucide="${icon}"></i> <span class="btn-label">${label}</span></button>`;
 }
 
 // --- BASE PATH FIX ---
@@ -69,11 +69,6 @@ window.addEventListener('DOMContentLoaded', () => {
   initTheme();
   router();
 });
-
-// --- SECTION LABEL HELPER ---
-function getSectionLabel(qNumber) {
-  return qNumber <= 10 ? 'General Aptitude' : 'Computer Science';
-}
 
 // --- PALETTE STATUS ---
 function updatePaletteButton(qNumber) {
@@ -124,7 +119,10 @@ function updateNavButtons() {
 
 function toggleQuestionPanel() {
   const panel = document.getElementById('question-panel');
-  if (panel) panel.classList.toggle('is-expanded');
+  if (!panel) return;
+  const expanded = panel.classList.toggle('is-expanded');
+  const toggle = document.getElementById('panel-toggle');
+  if (toggle) toggle.setAttribute('aria-expanded', String(expanded));
 }
 
 // --- HOME PAGE VIEW ---
@@ -201,13 +199,10 @@ function renderWorkspacePage(folderName) {
       <header class="workspace-header glass">
         <div class="workspace-header__left">
           <a href="#/" class="workspace-header__home">
-            <i data-lucide="arrow-left"></i> Home
+            <i data-lucide="arrow-left"></i> <span class="btn-label">Home</span>
           </a>
           <span class="workspace-header__divider"></span>
           <h1 class="workspace-header__paper">${folderName}</h1>
-        </div>
-        <div class="workspace-header__center">
-          <span id="section-label">${getSectionLabel(1)}</span>
         </div>
         <div class="workspace-header__right">
           ${themeToggleHTML()}
@@ -224,36 +219,38 @@ function renderWorkspacePage(folderName) {
         </button>
       </nav>
 
-      <!-- Tier 3: Collapsible Question Panel -->
-      <div id="question-panel" class="question-panel">
-        <button type="button" id="panel-toggle" class="panel-toggle" onclick="toggleQuestionPanel()">
-          <span>Question Palette (1–65)</span>
-          <i data-lucide="chevron-down" class="panel-toggle__icon"></i>
-        </button>
-        <div id="question-grid">
-          ${paletteHTML}
+      <div class="workspace-body">
+        <!-- Tier 3: Collapsible Question Panel -->
+        <div id="question-panel" class="question-panel">
+          <button type="button" id="panel-toggle" class="panel-toggle" onclick="toggleQuestionPanel()" aria-expanded="false" aria-controls="question-grid">
+            <span>Question Palette (1–65)</span>
+            <i data-lucide="chevron-down" class="panel-toggle__icon"></i>
+          </button>
+          <div id="question-grid">
+            ${paletteHTML}
+          </div>
         </div>
+
+        <!-- Tier 4: Main Question Workspace -->
+        <main class="workspace-main">
+          <article class="question-card card">
+            <div id="question-header">
+              <h2 id="q-number">Select a Question</h2>
+              <div id="q-meta"></div>
+            </div>
+
+            <div id="question-stage">
+              Click any question number in the palette to load.
+            </div>
+
+            <div id="action-footer" class="hidden">
+              <button type="button" id="check-btn" class="btn btn-primary" onclick="checkAnswer('${folderName}')" disabled>
+                Check Answer
+              </button>
+            </div>
+          </article>
+        </main>
       </div>
-
-      <!-- Tier 4: Main Question Workspace -->
-      <main class="workspace-main">
-        <article class="question-card card">
-          <div id="question-header">
-            <h2 id="q-number">Select a Question</h2>
-            <div id="q-meta"></div>
-          </div>
-
-          <div id="question-stage">
-            Click any question number in the palette to load.
-          </div>
-
-          <div id="action-footer" class="hidden">
-            <button type="button" id="check-btn" class="btn btn-primary" onclick="checkAnswer('${folderName}')" disabled>
-              Check Answer
-            </button>
-          </div>
-        </article>
-      </main>
     </div>
   `;
 
@@ -271,10 +268,8 @@ async function loadQuestion(folderName, qNumber) {
   const qMeta = document.getElementById('q-meta');
   const actionFooter = document.getElementById('action-footer');
   const checkBtn = document.getElementById('check-btn');
-  const sectionLabel = document.getElementById('section-label');
 
   updateAllPaletteButtons();
-  if (sectionLabel) sectionLabel.textContent = getSectionLabel(qNumber);
   updateNavButtons();
 
   qNumHeading.innerText = `Question ${qNumber}`;
