@@ -125,6 +125,31 @@ function toggleQuestionPanel() {
   if (toggle) toggle.setAttribute('aria-expanded', String(expanded));
 }
 
+// --- MOBILE: CLICK-OUTSIDE TO DISMISS PALETTE ---
+// Matches the `@media (min-width: 768px)` breakpoint used in styles.css —
+// below that width, the palette behaves as a mobile overlay/drawer that
+// should auto-collapse when the user taps outside it.
+const MOBILE_BREAKPOINT = 768;
+
+function isMobileViewport() {
+  return window.innerWidth < MOBILE_BREAKPOINT;
+}
+
+document.addEventListener('click', (event) => {
+  if (!isMobileViewport()) return; // desktop: never auto-collapse
+
+  const panel = document.getElementById('question-panel');
+  if (!panel || !panel.classList.contains('is-expanded')) return;
+
+  const toggle = document.getElementById('panel-toggle');
+  const clickedInsidePanel = panel.contains(event.target);
+  const clickedToggle = toggle && toggle.contains(event.target);
+
+  if (!clickedInsidePanel && !clickedToggle) {
+    toggleQuestionPanel();
+  }
+});
+
 // --- HOME PAGE VIEW ---
 async function renderHomePage() {
   appDiv.innerHTML = `<div class="loading-state">Loading PYQ Hub...</div>`;
