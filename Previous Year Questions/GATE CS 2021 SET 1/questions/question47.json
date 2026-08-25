@@ -11,7 +11,7 @@
   "negative marks": "0.66",
   "questionText": "Consider the following ANSI C program.<br><br>Which one of the following options is correct?",
   "assetImage": null,
-  "codeBlock": "#include <stdio.h>\nint main()\n{\n    int i, j, count;\n    count = 0;\n    i = 0;\n    for (j = -3; j <= 3; j++)\n    {\n        if ((j >= 0) && (i++))\n            count = count + j;\n    }\n    count = count + i;\n    printf(\"%d\", count);\n    return 0;\n}",
+  "codeBlock": "#include &lt;stdio.h&gt;\nint main()\n{\n    int i, j, count;\n    count = 0;\n    i = 0;\n    for (j = -3; j <= 3; j++)\n    {\n        if ((j >= 0) && (i++))\n            count = count + j;\n    }\n    count = count + i;\n    printf(\"%d\", count);\n    return 0;\n}",
   "options": [
     "The program will not compile successfully.",
     "The program will compile successfully and output 10 when executed.",

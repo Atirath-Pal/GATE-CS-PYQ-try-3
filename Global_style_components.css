@@ -1,0 +1,212 @@
+/* ============================================================
+   GATE CS PYQ Hub — Design Tokens & Typography
+   Global_style_components.css
+   ============================================================ */
+
+/* --- Light Mode (default) --- */
+:root,
+[data-theme="light"] {
+  /* Surfaces */
+  --bg-canvas: #F4F4F5;
+  --bg-elevated: #FFFFFF;
+  --bg-grouped: #E4E4E7;
+
+  /* Text */
+  --text-primary: #09090B;
+  --text-secondary: #71717A;
+
+  /* Accent */
+  --accent-primary: #4F46E5;
+  --accent-primary-hover: #4338CA;
+  --accent-primary-muted: rgba(79, 70, 229, 0.12);
+
+  /* Status */
+  --status-correct: #15803D;
+  --status-correct-bg: rgba(21, 128, 61, 0.12);
+  --status-incorrect: #B91C1C;
+  --status-incorrect-bg: rgba(185, 28, 28, 0.12);
+  --status-warning: #C2410C;
+  --status-warning-bg: rgba(194, 65, 12, 0.12);
+
+  /* Glass & borders */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --border-subtle: rgba(9, 9, 11, 0.08);
+  --border-default: rgba(9, 9, 11, 0.12);
+  --shadow-sm: 0 1px 3px rgba(9, 9, 11, 0.06);
+  --shadow-md: 0 4px 16px rgba(9, 9, 11, 0.08);
+
+  /* Component-specific */
+  --input-bg: var(--bg-elevated);
+  --code-bg: #F4F4F5;
+  --code-text: #15803D;
+  --badge-positive-bg: rgba(21, 128, 61, 0.1);
+  --badge-negative-bg: rgba(185, 28, 28, 0.1);
+  --image-bg: #FFFFFF;
+  --scrollbar-thumb: #D4D4D8;
+}
+
+/* --- Dark Mode --- */
+[data-theme="dark"] {
+  /* Surfaces */
+  --bg-canvas: #09090B;
+  --bg-elevated: #18181B;
+  --bg-grouped: #27272A;
+
+  /* Text */
+  --text-primary: #FAFAFA;
+  --text-secondary: #A1A1AA;
+
+  /* Accent */
+  --accent-primary: #6366F1;
+  --accent-primary-hover: #818CF8;
+  --accent-primary-muted: rgba(99, 102, 241, 0.15);
+
+  /* Status */
+  --status-correct: #22C55E;
+  --status-correct-bg: rgba(34, 197, 94, 0.12);
+  --status-incorrect: #EF4444;
+  --status-incorrect-bg: rgba(239, 68, 68, 0.12);
+  --status-warning: #F97316;
+  --status-warning-bg: rgba(249, 115, 22, 0.12);
+
+  /* Glass & borders */
+  --glass-bg: rgba(24, 24, 27, 0.72);
+  --border-subtle: rgba(250, 250, 250, 0.06);
+  --border-default: rgba(250, 250, 250, 0.1);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+
+  /* Component-specific */
+  --input-bg: var(--bg-grouped);
+  --code-bg: #09090B;
+  --code-text: #22C55E;
+  --badge-positive-bg: rgba(34, 197, 94, 0.1);
+  --badge-negative-bg: rgba(239, 68, 68, 0.1);
+  --image-bg: #FFFFFF;
+  --scrollbar-thumb: #3F3F46;
+}
+
+/* --- Typography --- */
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  --tracking-tight: -0.025em;
+  --tracking-wide: 0.05em;
+  --tracking-widest: 0.1em;
+
+  /* Radii */
+  --radius-input: 10px;
+  --radius-button: 12px;
+  --radius-card: 14px;
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+
+  /* Z-index layers */
+  --z-header: 100;
+  --z-nav: 90;
+  --z-panel: 80;
+}
+
+/* --- Base Typography Rules --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  color: var(--text-primary);
+  background-color: var(--bg-canvas);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: var(--font-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
+
+code, pre {
+  font-family: var(--font-mono);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
